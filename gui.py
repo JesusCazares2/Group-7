@@ -3,9 +3,8 @@ import search_algos
 import random
 import time
 import tkinter as tk
-
-def run_search_algos(): # I couldn't get the code to run in the terminal so to make it work with the algos file I had to run it like this
-    search_algos.run_search_algos()
+import matplotlib.pyplot as plt
+import numpy as np
 
 # generate random data 
 def random_list(size):
@@ -31,6 +30,9 @@ def get_input():
 
     data_results = f"Data before sorting: {data}\n\n" # print unsorted data 
 
+    execution_times = []
+    algorithms = []
+
     for algo in selected_algorithms:    # for selected algos, sort data and print results
         start_time = time.time()
         if algo == "Bubble Sort":
@@ -43,11 +45,25 @@ def get_input():
             sorted_data = search_algos.lsd_radix_sort(data)  
         
         end_time = time.time()
+        execution_time = end_time - start_time
+
+        execution_times.append(execution_time)
+        algorithms.append(algo)
         data_results += f"Sorted Data for {algo}: {sorted_data}\n"
-        data_results += f"Execution time: {end_time - start_time:.6f} seconds\n\n"
+        data_results += f"Execution time: {execution_time:.6f} seconds\n\n"
 
     current_text = result.cget("text")
     result.config(text=current_text + data_results)
+
+    plt.figure(figsize=(8, 5))
+    colors = [f"#{random.randint(0, 0xFFFFFF):06x}" for _ in algorithms]
+    plt.bar(algorithms, execution_times, color=colors)
+    plt.xlabel("Sorting Algorithm")
+    plt.ylabel("Execution Time (seconds)")
+    plt.title("Sorting Algorithm Execution Times")
+    plt.xticks(rotation=45)
+    plt.ylim(0, max(execution_times) * 1.2)    
+    plt.show()
 
 def lin_search():
     user_input = search_entry.get()
