@@ -99,4 +99,4 @@ def linear_search(arr, search):
         if arr[i] == search:
             print(f"{arr[i]} was found")
             return i
-    assert False, "Number was not found"
+    return -1

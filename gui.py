@@ -12,8 +12,9 @@ def random_list(size):
     return [random.randint(1, 9999) for _ in range(size)]
 
 
-def get_input():    # allow user to enter how many data points they want to generate
-    user_text = entry.get()  
+def get_input(): 
+    global sorted_data
+    user_text = data_entry.get()  
     try:
         num_data_points = int(user_text)
 
@@ -45,35 +46,57 @@ def get_input():    # allow user to enter how many data points they want to gene
         data_results += f"Sorted Data for {algo}: {sorted_data}\n"
         data_results += f"Execution time: {end_time - start_time:.6f} seconds\n\n"
 
-    result.config(text=data_results)
+    current_text = result.cget("text")
+    result.config(text=current_text + data_results)
+
+def lin_search():
+    user_input = search_entry.get()
+    user_search = int(user_input)
+
+    current_text = result.cget("text")
+
+    search_result = search_algos.linear_search(sorted_data, user_search)
+    if search_result != -1:
+        result.config(text=current_text + f"{user_search} found at index {search_result}")
+    else:
+        result.config(text=current_text + f"{user_search} not found in the data")
 
 root = tk.Tk()
 root.title("Select Sorting Method")
 
 # Create a label for user input
-label = tk.Label(root, text="Enter number of data points:")
-label.pack(pady=5)
+data_points = tk.Label(root, text="Enter number of data points:")
+data_points.pack(pady=5)
 
 # Create an entry box for user input
-entry = tk.Entry(root, width=30)
-entry.pack(pady=5)
+data_entry = tk.Entry(root, width=30)
+data_entry.pack(pady=5)
 
 # Frame to hold the checkboxes
 checkbox_frame = tk.Frame(root)
 checkbox_frame.pack(pady=5)
 
 # Sorting algorithms options
-algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort", "Linear Search"]
+algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort"]
 check_vars = {algo: tk.BooleanVar() for algo in algorithms}
+
+# Submit button
+submit_data_button = tk.Button(root, text="Submit", command=get_input)
+submit_data_button.pack(pady=10)
 
 # Create checkboxes
 for algo, var in check_vars.items():
     chk = tk.Checkbutton(checkbox_frame, text=algo, variable=var)
     chk.pack(anchor="w")  # Align to the left
 
-# Submit button
-button = tk.Button(root, text="Submit", command=get_input)
-button.pack(pady=10)
+user_search = tk.Label(root, text="Search for: ")
+user_search.pack(pady=5)
+
+search_entry = tk.Entry(root, width=30)
+search_entry.pack(pady=5)
+
+submit_search_button = tk.Button(root, text="Submit", command=lin_search)
+submit_search_button.pack(pady=10)
 
 # Label to display results
 result = tk.Label(root, text="", wraplength=250)
