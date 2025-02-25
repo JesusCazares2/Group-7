@@ -1,4 +1,4 @@
-import search_algos
+import sort_algos
 
 import random
 import time
@@ -35,13 +35,13 @@ def get_input():
     for algo in selected_algorithms:    # for selected algos, sort data and print results
         start_time = time.time()
         if algo == "Bubble Sort":
-            sorted_data = search_algos.bubble_sort(data)  
+            sorted_data = sort_algos.bubble_sort(data)  
         elif algo == "Merge Sort":
-            sorted_data = search_algos.merge_sort(data)  
+            sorted_data = sort_algos.merge_sort(data)  
         elif algo == "Quick Sort":
-            sorted_data = search_algos.quick_sort(data)  
+            sorted_data = sort_algos.quick_sort(data)  
         elif algo == "Radix Sort":
-            sorted_data = search_algos.lsd_radix_sort(data)  
+            sorted_data = sort_algos.lsd_radix_sort(data)  
         
         end_time = time.time()
         execution_time = end_time - start_time # calculate effiency of each search algo
@@ -73,7 +73,7 @@ def lin_search():
 
     current_text = result.cget("text")
 
-    search_result = search_algos.linear_search(sorted_data, user_search)
+    search_result = sort_algos.linear_search(sorted_data, user_search)
 
     if search_result != -1:
         result.config(text=current_text + f"{user_search} found at index {search_result}")
