@@ -4,6 +4,7 @@ import random
 import time
 import tkinter as tk
 import matplotlib.pyplot as plt
+from matplotlib import animation
 import numpy as np
 
 # generate random data 
@@ -55,13 +56,22 @@ def get_input():
     result.config(text=current_text + data_results)
 
     # create bar graph of all execution times
-    plt.figure(figsize=(8, 5))  # size of image
-    colors = [f"#{random.randint(0, 0xFFFFFF):06x}" for _ in algorithms] # randomize colors for each bar
-    plt.bar(algorithms, execution_times, color=colors)  
+    fig = plt.figure(figsize=(8, 5)) 
+    colors = [f"#{random.randint(0, 0xFFFFFF):06x}" for _ in algorithms]
+    axes = fig.add_subplot(1,1,1)
+    axes.set_ylim(0, max(execution_times) * 1.2)  
+    bars = [plt.bar(algorithms, [0] * len(algorithms), color=colors)]
+    num_frames = 100
+    nanoseconds_lists = [np.linspace(0, time, num_frames) for time in execution_times]
+    def animate(i):
+        # Update the height of each bar based on the current frame
+        for j, bar in enumerate(bars[0]):
+            bar.set_height(nanoseconds_lists[j][i])  # Update bar height for each algorithm
     plt.xlabel("Sorting Algorithm")
     plt.ylabel("Execution Time (seconds)")
     plt.title("Sorting Algorithm Execution Times")
-    plt.ylim(0, max(execution_times) * 1.2)  
+    anim=animation.FuncAnimation(fig,animate,repeat=False,blit=False,frames=100,
+                             interval=0.10)
     plt.show()
 
 def lin_search():
