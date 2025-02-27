@@ -42,8 +42,8 @@ def get_input():
         elif algo == "Quick Sort":
             sorted_data = sort_algos.quick_sort(data)  
         elif algo == "Radix Sort":
-            sorted_data = sort_algos.lsd_radix_sort(data)  
-        
+            sorted_data = sort_algos.lsd_radix_sort(data)
+
         end_time = time.time()
         execution_time = end_time - start_time # calculate effiency of each search algo
 
@@ -90,6 +90,13 @@ def lin_search():
     else:
         result.config(text=current_text + f"{user_search} not found in the data")
 
+def reset_data():
+    data_entry.delete(0, 'end')
+    search_entry.delete(0, 'end')
+
+    for clear_checkbox in checkbox_frame.winfo_children():
+        clear_checkbox.deselect()
+
 root = tk.Tk()
 root.title("Group Project # 1 Algorithm Analyzer Tool")
 
@@ -106,17 +113,21 @@ checkbox_frame = tk.Frame(root)
 checkbox_frame.pack(pady=5)
 
 # sorting algorithms options
-algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort"]
+algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort", "Select All"]
 check_vars = {algo: tk.BooleanVar() for algo in algorithms}
 
 # first submit button
 submit_data_button = tk.Button(root, text="Submit", command=get_input)
 submit_data_button.pack(pady=10)
 
+# reset button
+reset_data_button = tk.Button(root, text="Reset", command=reset_data)
+reset_data_button.pack(pady=5)
+
 # create checkboxes
 for algo, var in check_vars.items():
     chk = tk.Checkbutton(checkbox_frame, text=algo, variable=var)
-    chk.pack(anchor="w")  
+    chk.pack(anchor="w")
 
 # label prompting user search
 user_search = tk.Label(root, text="Search for: ")
