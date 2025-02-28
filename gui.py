@@ -23,16 +23,14 @@ def get_input():
     # ensures that the entries are only integers greater than 0
     try:
         num_data_points = int(data_entry.get())
-        my_key = int(search_entry.get())
 
-        if num_data_points < 0 or my_key < 0: # prompt error if entered value is less than zero
+        if num_data_points < 0: # prompt error if entered value is less than zero
             raise ValueError
         
         data = random_list(num_data_points)  # generate random values
     except ValueError:  # prompts error if a letter is detected 
         result.insert("1.0", "Please only enter numbers greater than zero.\nThe search key can only be an integer.\n")
         return
-
 
     # Check which sorting algorithm is selected
     selected_algorithms = [algo for algo, var in check_vars.items() if var.get()]
