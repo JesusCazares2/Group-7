@@ -9,6 +9,10 @@ from tkinter import *
 from tkinter.ttk import *
 import numpy as np
 
+def search_key():
+        my_key = int(search_entry.get())
+        return my_key
+
 # generate random data 
 def random_list(size):
     return [random.randint(1, 9999) for _ in range(size)]
@@ -47,7 +51,13 @@ def get_input():
             sorted_data = sort_algos.quick_sort(data)  
         elif algo == "Radix Sort":
             sorted_data = sort_algos.lsd_radix_sort(data)
+<<<<<<< HEAD
        
+=======
+        elif algo == "Linear Search":
+            sorted_data = sort_algos.linear_search(data, search_key())
+
+>>>>>>> 3a6251109a573c172a718e453b1367002d306a66
         end_time = time.time_ns()
         execution_time = end_time - start_time # calculate effiency of each search algo
 
@@ -82,6 +92,7 @@ def get_input():
     
     plt.show()
 
+<<<<<<< HEAD
 def lin_search():
     try:
         user_search = int(search_entry.get()) # take user entry for linear search
@@ -95,6 +106,8 @@ def lin_search():
     else:
         result.insert("1.0", f"{user_search} not found in the data\n")
         
+=======
+>>>>>>> 3a6251109a573c172a718e453b1367002d306a66
 # clears everything
 def reset_data():
     data_entry.delete(0, 'end')
@@ -126,6 +139,7 @@ data_entry.grid(row = 1, column = 0, padx = 25)
 
 # label prompting user search
 user_search = tk.Label(root, text="Search for: ")
+<<<<<<< HEAD
 user_search.grid(row = 5, column = 0)
 
 # creates text box for search input
@@ -135,14 +149,26 @@ search_entry.grid(row = 6, column = 0)
 # frame to hold the checkboxes
 checkbox_frame = tk.Frame(root)
 checkbox_frame.grid(row = 2, column = 0)
+=======
+user_search.grid(row = 2, column = 0)
+
+# creates text box for search input
+search_entry = tk.Entry(root, width=30)
+search_entry.grid(row = 3, column = 0)
+
+# frame to hold the checkboxes
+checkbox_frame = tk.Frame(root)
+checkbox_frame.grid(row = 4, column = 0)
+>>>>>>> 3a6251109a573c172a718e453b1367002d306a66
 
 # sorting algorithms options
-algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort"]
+algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort", "Linear Search"]
 check_vars = {algo: tk.BooleanVar() for algo in algorithms}
 print(check_vars)
 
 # select all button
 select_all_button = tk.Button(root, text="Select All", command=select_all)
+<<<<<<< HEAD
 select_all_button.grid(row=3, column=0)
 
 # submit button
@@ -156,6 +182,17 @@ search_button.grid(row = 7, column = 0)
 # reset button
 reset_data_button = tk.Button(root, text="Reset", command=reset_data)
 reset_data_button.grid(row = 8, column = 0)
+=======
+select_all_button.grid(row=5, column=0)
+
+# submit button
+submit_data_button = tk.Button(root, text="Submit", command=get_input)
+submit_data_button.grid(row = 6, column = 0)
+
+# reset button
+reset_data_button = tk.Button(root, text="Reset", command=reset_data)
+reset_data_button.grid(row = 7, column = 0)
+>>>>>>> 3a6251109a573c172a718e453b1367002d306a66
 
 # create checkboxes
 for algo, var in check_vars.items():
