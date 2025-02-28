@@ -87,24 +87,8 @@ def get_input():
     plt.title("Sorting Algorithm Execution Times")
     anim=animation.FuncAnimation(fig,animate,repeat=False,blit=False,frames=100,
                              interval=0.02)
+    
     plt.show()
-
-
-def lin_search():
-    try:
-        user_search = int(search_entry.get()) # take user entry for linear search
-    except ValueError:
-        result.insert("1.0", "Please enter a valid integer")
-        return
-
-    current_text = result.get("1.0","end")
-
-    search_result = sort_algos.linear_search(sorted_data, user_search)
-
-    if search_result != -1:
-        result.insert("1.0",current_text + f"{user_search} found at index {search_result}")
-    else:
-        result.insert("1.0",current_text + f"{user_search} not found in the data")
 
 def reset_data():
     data_entry.delete(0, 'end')
@@ -115,6 +99,10 @@ def reset_data():
     result.delete("1.0", "end")
     plt.close()
 
+def select_all():
+    for all_checkbox in checkbox_frame.winfo_children():
+        all_checkbox.select()
+
 root = tk.Tk()
 root.title("Group Project # 1 Algorithm Analyzer Tool")
 
@@ -124,32 +112,36 @@ data_points.grid(row = 0, column = 0, rowspan=1)
 
 # creates text box for data points input
 data_entry = tk.Entry(root, width=30)
-data_entry.grid(row = 1, column = 0)
+data_entry.grid(row = 1, column = 0, padx = 25)
 
 # label prompting user search
 user_search = tk.Label(root, text="Search for: ")
-user_search.grid(row = 2, column = 0, pady = 2)
+user_search.grid(row = 2, column = 0)
 
 # creates text box for search input
 search_entry = tk.Entry(root, width=30)
-search_entry.grid(row = 3, column = 0, pady = 2)
-
+search_entry.grid(row = 3, column = 0)
 
 # frame to hold the checkboxes
 checkbox_frame = tk.Frame(root)
-checkbox_frame.grid(row = 4, column = 0, pady = 2)
+checkbox_frame.grid(row = 4, column = 0)
 
 # sorting algorithms options
 algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort", "Linear Search"]
 check_vars = {algo: tk.BooleanVar() for algo in algorithms}
 print(check_vars)
-# first submit button
+
+# select all button
+select_all_button = tk.Button(root, text="Select All", command=select_all)
+select_all_button.grid(row=5, column=0)
+
+# submit button
 submit_data_button = tk.Button(root, text="Submit", command=get_input)
-submit_data_button.grid(row = 5, column = 0, pady = 2)
+submit_data_button.grid(row = 6, column = 0)
 
 # reset button
 reset_data_button = tk.Button(root, text="Reset", command=reset_data)
-reset_data_button.grid(row = 6, column = 0, pady = 2)
+reset_data_button.grid(row = 7, column = 0)
 
 # create checkboxes
 for algo, var in check_vars.items():
@@ -157,8 +149,8 @@ for algo, var in check_vars.items():
     chk.pack(anchor="w")
 
 # Label to display results
-result = tk.Text(root, height= 30, width=50)
-result.grid(row = 0, column = 1, rowspan = 8, pady = 5)
+result = tk.Text(root, height=30, width=60)
+result.grid(row = 0, column = 1, rowspan = 8, pady = 40, padx = 25)
 
 # Run the Tkinter event loop
 root.mainloop()
