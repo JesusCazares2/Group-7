@@ -90,6 +90,7 @@ def get_input():
     
     plt.show()
 
+# clears everything
 def reset_data():
     data_entry.delete(0, 'end')
     search_entry.delete(0, 'end')
@@ -99,6 +100,7 @@ def reset_data():
     result.delete("1.0", "end")
     plt.close()
 
+# selects all the algos
 def select_all():
     for all_checkbox in checkbox_frame.winfo_children():
         all_checkbox.select()
@@ -106,6 +108,9 @@ def select_all():
 root = tk.Tk()
 root.title("Group Project # 1 Algorithm Analyzer Tool")
 
+# needs to do something similar to his enter comma-separated inputs like the video
+
+# this just generates an array of random number based on the array size entered
 # label for data points input
 data_points = tk.Label(root, text="Enter number of data points:")
 data_points.grid(row = 0, column = 0, rowspan=1)
