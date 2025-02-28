@@ -9,22 +9,30 @@ from tkinter import *
 from tkinter.ttk import *
 import numpy as np
 
+def search_key():
+        my_key = int(search_entry.get())
+        return my_key
+
 # generate random data 
 def random_list(size):
     return [random.randint(1, 9999) for _ in range(size)]
 
 def get_input(): 
     global sorted_data # we need to call it back for linear search
+
+    # ensures that the entries are only integers greater than 0
     try:
         num_data_points = int(data_entry.get())
+        my_key = int(search_entry.get())
 
-        if num_data_points < 0: # prompt error if entered value is less than zero
+        if num_data_points < 0 or my_key < 0: # prompt error if entered value is less than zero
             raise ValueError
         
         data = random_list(num_data_points)  # generate random values
-    except ValueError:  # prompts error if a letter is deteccted 
-        result.insert("1.0", "Please only enter numbers greater than zero")
+    except ValueError:  # prompts error if a letter is detected 
+        result.insert("1.0", "Please only enter numbers greater than zero.\nThe search key can only be an integer.\n")
         return
+
 
     # Check which sorting algorithm is selected
     selected_algorithms = [algo for algo, var in check_vars.items() if var.get()]
@@ -45,6 +53,8 @@ def get_input():
             sorted_data = sort_algos.quick_sort(data)  
         elif algo == "Radix Sort":
             sorted_data = sort_algos.lsd_radix_sort(data)
+        elif algo == "Linear Search":
+            sorted_data = sort_algos.linear_search(data, search_key())
 
         end_time = time.time_ns()
         execution_time = end_time - start_time # calculate effiency of each search algo
@@ -116,38 +126,35 @@ data_points.grid(row = 0, column = 0, rowspan=1)
 data_entry = tk.Entry(root, width=30)
 data_entry.grid(row = 1, column = 0)
 
+# label prompting user search
+user_search = tk.Label(root, text="Search for: ")
+user_search.grid(row = 2, column = 0, pady = 2)
+
+# creates text box for search input
+search_entry = tk.Entry(root, width=30)
+search_entry.grid(row = 3, column = 0, pady = 2)
+
+
 # frame to hold the checkboxes
 checkbox_frame = tk.Frame(root)
-checkbox_frame.grid(row = 2, column = 0, pady = 2)
+checkbox_frame.grid(row = 4, column = 0, pady = 2)
 
 # sorting algorithms options
-algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort"]
+algorithms = ["Bubble Sort", "Merge Sort", "Quick Sort", "Radix Sort", "Linear Search"]
 check_vars = {algo: tk.BooleanVar() for algo in algorithms}
 print(check_vars)
 # first submit button
 submit_data_button = tk.Button(root, text="Submit", command=get_input)
-submit_data_button.grid(row = 3, column = 0, pady = 2)
+submit_data_button.grid(row = 5, column = 0, pady = 2)
 
 # reset button
 reset_data_button = tk.Button(root, text="Reset", command=reset_data)
-reset_data_button.grid(row = 4, column = 0, pady = 2)
+reset_data_button.grid(row = 6, column = 0, pady = 2)
 
 # create checkboxes
 for algo, var in check_vars.items():
     chk = tk.Checkbutton(checkbox_frame, text=algo, variable=var)
     chk.pack(anchor="w")
-
-# label prompting user search
-user_search = tk.Label(root, text="Search for: ")
-user_search.grid(row = 5, column = 0, pady = 2)
-
-# creates text box for search input
-search_entry = tk.Entry(root, width=30)
-search_entry.grid(row = 6, column = 0, pady = 2)
-
-# second submit button
-submit_search_button = tk.Button(root, text="Submit", command=lin_search)
-submit_search_button.grid(row = 7, column = 0, pady = 2)
 
 # Label to display results
 result = tk.Text(root, height= 30, width=50)
