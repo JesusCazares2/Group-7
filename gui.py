@@ -18,12 +18,19 @@ def get_input():
 
     # ensures that the entries are only integers greater than 0
     try:
-        num_data_points = int(data_entry.get())
+        user_input = data_entry.get().strip()
 
-        if num_data_points < 0: # prompt error if entered value is less than zero
-            raise ValueError
+        if "," in user_input:
+            data = [int(num.strip()) for num in user_input.split(",") if num.strip().isdigit()]
+            if not data:
+                raise ValueError
+        else:
+            num_data_points = int(user_input)
+            if num_data_points < 0:
+                raise ValueError
         
-        data = random_list(num_data_points)  # generate random values
+            data = random_list(num_data_points)  # generate random values
+
     except ValueError:  # prompts error if a letter is detected 
         result.insert("1.0", "Please only enter numbers greater than zero.\nThe search key can only be an integer.\n")
         return
@@ -117,7 +124,7 @@ root.title("Group Project # 1 Algorithm Analyzer Tool")
 
 # this just generates an array of random number based on the array size entered
 # label for data points input
-data_points = tk.Label(root, text="Enter number of data points:")
+data_points = tk.Label(root, text="Enter the number of data points or a comma-separated list of values:")
 data_points.grid(row = 0, column = 0, rowspan=1)
 
 # creates text box for data points input
