@@ -114,7 +114,6 @@ def lin_search():
 def reset_data():
     array_size_entry.delete(0, 'end')
     search_entry.delete(0, 'end')
-    input_entry.delete(0, 'end')
 
     for clear_checkbox in checkbox_frame.winfo_children():
         clear_checkbox.deselect()
